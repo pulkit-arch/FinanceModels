@@ -8,3 +8,5 @@ requests
 seaborn
 tabulate
 vaderSentiment
+robin_stocks
+pyotp

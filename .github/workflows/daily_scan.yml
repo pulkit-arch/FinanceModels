@@ -1,0 +1,54 @@
+name: Daily Market Scan + Auto-Trade
+
+on:
+  schedule:
+    # 14:45 UTC = 9:45 AM ET — 15 min after market open, prices settled
+    - cron: "45 14 * * 1-5"
+  workflow_dispatch:         # allow manual trigger from GitHub Actions UI
+    inputs:
+      dry_run:
+        description: "Dry run (no real trades)"
+        required: false
+        default: "false"
+        type: choice
+        options: ["true", "false"]
+
+jobs:
+  scan-and-trade:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write          # needed to commit scanner_log.csv back to repo
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install yfinance pandas numpy robin_stocks pyotp
+
+      - name: Run daily scanner
+        env:
+          RH_USERNAME:   ${{ secrets.RH_USERNAME }}
+          RH_PASSWORD:   ${{ secrets.RH_PASSWORD }}
+          RH_TOTP_KEY:   ${{ secrets.RH_TOTP_KEY }}
+          RH_ACCOUNT:    ${{ secrets.RH_ACCOUNT }}
+          DRY_RUN:       ${{ github.event.inputs.dry_run || 'false' }}
+          TRADE_AMOUNT:  ${{ vars.TRADE_AMOUNT || '100' }}
+          MAX_POSITIONS: ${{ vars.MAX_POSITIONS || '3' }}
+        run: python daily_scanner.py
+
+      - name: Commit scanner log
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add scanner_log.csv || true
+          git diff --staged --quiet || git commit -m "chore: daily scan log $(date -u +%Y-%m-%d)"
+          git push || true         # no-op if nothing changed
