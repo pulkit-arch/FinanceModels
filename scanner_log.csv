@@ -363,3 +363,10 @@ timestamp,symbol,price,signal,strategies,rsi,vol_ratio,action_taken,order_status
 2026-10-29T19:53:25Z,MSFT,529.82,HOLD,[],46.1,1.52,none,—,no signal
 2026-10-29T19:53:25Z,BTC-USD,80771.39,HOLD,[],42.8,1.14,none,—,no signal
 2026-10-29T19:53:25Z,ETH-USD,2335.29,HOLD,[],34.0,1.06,none,—,no signal
+2026-10-30T19:43:44Z,SPY,753.41,HOLD,[],33.2,1.3,none,—,no signal
+2026-10-30T19:43:44Z,QQQ,688.0,HOLD,[],28.1,1.67,none,—,no signal
+2026-10-30T19:43:44Z,AAPL,344.05,HOLD,[],54.1,1.07,none,—,no signal
+2026-10-30T19:43:44Z,NVDA,203.01,HOLD,[],30.1,1.15,none,—,no signal
+2026-10-30T19:43:44Z,MSFT,523.35,HOLD,[],36.9,0.94,none,—,no signal
+2026-10-30T19:43:44Z,BTC-USD,76487.91,HOLD,[],30.9,2.17,none,—,no signal
+2026-10-30T19:43:44Z,ETH-USD,2229.08,HOLD,[],27.0,2.35,none,—,no signal
